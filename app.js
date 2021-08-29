@@ -76,8 +76,9 @@ app.use(express.urlencoded({ extended: true, limit: "10kb" }));
 // app.use(compression());
 
 // 3) ROUTES
+
 app.use("/", function (req, res) {
-  res.send("chumma");
+  res.send("chuamaama");
 });
 // app.use("/api/v1/tours", tourRouter);
 
