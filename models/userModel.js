@@ -3,10 +3,11 @@ const mongoose = require("mongoose");
 const validator = require("validator");
 // const bcrypt = require('bcryptjs');
 
-var User = new mongoose.Schema({
+var UserSchema = new mongoose.Schema({
   userName: {
     type: String,
   },
+  joinedDate: { type: Date, default: Date.now() },
   email: {
     type: String,
     unique: true,

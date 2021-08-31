@@ -2,7 +2,13 @@ const mongoose = require("mongoose");
 
 const OrderItemSchema = new mongoose.Schema({
   //NOTE: when showing products in the cart, then get the discount, and product price details from product table and update the discount and price in here.
+  //(check if the orderdetail products details and product tables product details are same,if not thn pdate that orderDetails product from
+  // the current product and thn based on that orderDetail create the items in the cart)
   //but when showing order history, thn get the discount/price from this collection
+  createdAt: {
+    type: Date,
+    default: Date.now(),
+  },
   cart: {
     type: mongoose.Schema.ObjectId,
     ref: "Cart",
@@ -32,35 +38,74 @@ const OrderItemSchema = new mongoose.Schema({
     type: String,
     required: [true, "OrderItem must belong to a Product!"],
   },
-  productImage: {
-    type: String,
-  },
-  customerName: {
-    type: String,
-    required: [true, "OrderItem must belong to a Customer!"],
-  },
-  artistName: {
-    type: String,
-    required: [true, "OrderItem must belong to a Artist!"],
-  },
-  price: {
-    //we might change the price of a product in future thats why this data.
-    type: Number,
-    require: [true, "Booking must have a price."],
+
+  productDetail: {
+    type: Object,
+    customerName: {
+      type: String,
+      required: [true, "OrderItem must belong to a Customer!"],
+    },
+    artistName: {
+      type: String,
+      required: [true, "OrderItem must belong to a Artist!"],
+    },
+    price: {
+      //we might change the price of a product in future thats why this data.
+      type: Number,
+      require: [true, "Product must have a price."],
+    },
+    artistPrice: {
+      //we might change the price of a product in future thats why this data.
+      type: Number,
+      require: [true, "Product must have a price."],
+    },
+
+    discount: {
+      type: Number,
+      default: 0,
+    },
+
+    backgroundColor: {
+      type: String,
+      require: [true, "Product must have a color"],
+    },
+    quantity: {
+      type: Number,
+      default: 1,
+    },
   },
 
-  discount: {
-    type: Number,
-    default: 0,
+  alignment: {
+    //alignment of the art(image) inside previewDetailImage
+    type: Object,
+    //alignments
+    Alwidth: {
+      //percentage
+      type: String,
+    },
+    AlHeight: {
+      //percentage
+      type: String,
+    },
+
+    Alsize: {
+      //percentage
+      type: String,
+    },
+    AlLeft: {
+      type: String,
+    },
+    AlRight: {
+      type: String,
+    },
+    AlTop: {
+      type: String,
+    },
+    AlBottom: {
+      type: String,
+    },
   },
-  createdAt: {
-    type: Date,
-    default: Date.now(),
-  },
-  quantity: {
-    type: Number,
-    default: 1,
-  },
+
   removed: {
     //checking weather its removed from cart or not
     type: Boolean,
@@ -98,6 +143,10 @@ const OrderItemSchema = new mongoose.Schema({
   isPaidToArtist: {
     type: Boolean,
     default: false,
+  },
+  instruction: {
+    //any instruction made by the customer. - add my name in the back of the tshirt
+    type: String,
   },
 });
 

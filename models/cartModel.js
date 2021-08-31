@@ -29,25 +29,36 @@ var cartSchema = new mongoose.Schema({
     type: String,
   },
   shippingAddress: {
+    //added when payment is made
     type: String,
   },
   shippingPrice: {
+    //added when payment is made
     //if shipping address / quantity is out of colombo or larger than 20, thn calculate the shipping price based on that, on the front end and verify the shipping price on the backned based on the quantity and address before accepting the payment
     type: Number,
     default: 150,
   },
+  mobileNumber: {
+    //added when payment is made
+    type: String,
+  },
+
   paymentMethod: {
+    //added when payment is made
     type: String,
     default: "Cash", //Cash/Card
   },
   tax: {
+    //added when payment is made
     type: Number,
     default: 0,
   },
   total: {
     type: Number,
   },
-  empty: {
+  IsActive: {
+    //when a order is paid successfully, thn mark this as inactive.
+    //thn when we need to show the current cart, thn we could, search this cartUd from orderDetail and display the current products on the cart
     type: Boolean,
     default: true,
   },

@@ -19,9 +19,7 @@ var Follower = new mongoose.Schema({
       followingId: {
         type: mongoose.Schema.ObjectId,
         ref: "User",
-        minItems: 0,
-        maxItems: 1000,
-        description: "A follower cannot follow more than 1000 artist",
+
         //check weather the followThem id is artist or not. if not thn throw error,
       },
       status: {
@@ -31,6 +29,9 @@ var Follower = new mongoose.Schema({
           1, //accepted/follower/remove,
         ],
       },
+      minItems: 0,
+      maxItems: 1000,
+      description: "A follower cannot follow more than 1000 artist",
     },
   ],
 });

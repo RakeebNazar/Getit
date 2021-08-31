@@ -2,7 +2,7 @@
 const mongoose = require("mongoose");
 const Tour = require("./tourModel");
 
-const reviewSchema = new mongoose.Schema({
+const ReviewSchema = new mongoose.Schema({
   review: {
     type: String,
   },
@@ -92,6 +92,6 @@ reviewSchema.post(/^findOneAnd/, async function () {
   await this.r.constructor.calcAverageRatings(this.r.tour);
 });
 
-const Review = mongoose.model("Review", reviewSchema);
+const Review = mongoose.model("Review", ReviewSchema);
 
 module.exports = Review;
