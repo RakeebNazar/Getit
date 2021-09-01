@@ -75,7 +75,7 @@ var UserSchema = new mongoose.Schema({
   },
 
   wishlist: [
-    //use shift() in pre hook. if array.lenth() is 20
+    //use shift() in pre hook. if array.lenth() is 30
     {
       type: mongoose.Schema.ObjectId,
       ref: "Product",

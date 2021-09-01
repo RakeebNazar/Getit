@@ -15,9 +15,9 @@ const ArtSchema = new mongoose.Schema({
     ref: "User",
     required: [true, "Art must belong to a Artist"],
   },
-  pricePercentage: {
+  artistCommision: {
     type: Number,
-    required: [true, "Art must have a Price Percentage"],
+    required: [true, "Art must have a commision"],
   },
   Description: {
     type: String,
@@ -37,9 +37,17 @@ const ArtSchema = new mongoose.Schema({
       description: "keywords should not exceed 20",
     },
   ],
-  art: {
+  artImage: {
     //image of the art
     type: String,
+  },
+  visibility: {
+    type: Boolean,
+    deafult: false,
+  },
+  backgroundColor: {
+    type: String,
+    default: "white",
   },
 });
 

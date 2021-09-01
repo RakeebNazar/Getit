@@ -17,19 +17,6 @@ const ProductSchema = new mongoose.Schema({
     type: String,
     required: [true, "Product must have a name"],
   },
-  price: {
-    //we might change the price of a product in future thats why this data.
-    type: Number,
-    require: [true, "Product must have a price."],
-  },
-  discount: {
-    type: mongoose.Schema.ObjectId,
-    ref: "Discount",
-  },
-  backgroundColor: {
-    type: String,
-    required: [true, "Product must have a backgroundColor"],
-  },
   artist: {
     type: mongoose.Schema.ObjectId,
     ref: "User",
@@ -41,7 +28,7 @@ const ProductSchema = new mongoose.Schema({
     ref: "Preview",
     required: [true, "Product must have a preview!"],
   },
-  previeDetailId: {
+  previewDetailId: {
     //must, when rendering products on the front end for 6s cover, thn from the product table, we need the images of 6s, which is  available on previewDetail
     type: mongoose.Schema.ObjectId,
     ref: "Preview",
@@ -82,8 +69,15 @@ const ProductSchema = new mongoose.Schema({
       type: String,
     },
   },
+  subCategory: {
+    type: mongoose.Schema.ObjectId,
+    ref: "subCategories",
+  },
 });
 
 const Product = mongoose.model("Product", ProductSchema);
 
 module.exports = Product;
+
+//in pre find hook/virtuals, create a background color, discount and Finalprice(based on prevoew price + artist commision) amount based on prviewDetail, because, if we embed the discount on product schema, when we update a discountdiscount on
+//preview detail, it wont effect here.

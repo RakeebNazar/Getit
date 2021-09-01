@@ -27,20 +27,14 @@ var DiscountSchema = new mongoose.Schema({
   },
   type: {
     type: String,
-    enum: ["newUser", "special", "product"],
-    default: "product",
+    enum: ["newUser", "special"],
+    default: "preview",
   },
   discount: {
-    //percentage
-    type: String,
+    //create unique discount prices for unique tshirts,cases. e.g mobile phone cases, long sleeve tshirts
+    type: Number,
   },
-  productId: {
-    //follower should be a user/artist
-    type: mongoose.Schema.ObjectId,
-    ref: "Product",
 
-    //check weather the followThem id is artist or not. if not thn throw error,
-  },
   createdAt: {
     type: Date,
     default: Date.now(),

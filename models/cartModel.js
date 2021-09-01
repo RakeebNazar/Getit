@@ -17,7 +17,7 @@ var cartSchema = new mongoose.Schema({
     default: Date.now,
   },
   orderStatus: {
-    type: String,
+    type: Number,
     enums: [
       0, //pending
       1, //sent,

@@ -1,28 +1,43 @@
 // review / rating / createdAt / ref to tour / ref to user
 const mongoose = require("mongoose");
-
+//u should cteaye tshirts based on nech type
 const PreviewDetailSchema = new mongoose.Schema({
   previewId: {
-    //when adding new product to database, we might have top search, based on mobilePreview id, render all the preview detail docs from this collection. e.g mobileId-6s,5s]
+    //when adding new product to database, we might have to search, based on mobilePreview id, render all the preview detail docs from this collection. e.g mobileId-6s,5s]
     type: mongoose.Schema.ObjectId,
     ref: "Preview",
     required: [true, "PreviewDetail must belong to a preview!"],
   },
-  PreviewDetailName: {
-    //6s,5s,longsleeveTshirt
+  type: {
+    //iphone/standardShortSleeve, PremiumLongSleeve
     //the seller might change/delete the name  of a PreviewDetail in future thats why this data.
     type: String,
-    required: [true, "PreviewDetail must have a name"],
+    required: [true, "PreviewDetail must have a type"],
+  },
+  model: {
+    //6s,crew neck-dress.
+    type: String,
+    required: [true, "PreviewDetail must have a model"],
   },
   images: [
     //we might change the price of a PreviewDetail in future thats why this data.
     { type: String, require: [true, "PreviewDetail must have a image."] },
   ],
-
-  color: {
-    //use this only if previewDetail is a dress
-    type: String,
-    default: "blank",
+  price: {
+    //when a product is created it will render the price from here
+    type: Number,
+    required: [true, "PreviewDetail must have a price"],
+  },
+  discount: {
+    //product would take the discount here by populate. NOTE: we might want
+    type: Number,
+    default: 0,
+  },
+  subCategory: {
+    //
+    type: mongoose.Schema.ObjectId,
+    ref: "Preview",
+    required: [true, "PreviewDetail must belong to a preview!"],
   },
   //   discount: {  //check
   //     type: mongoose.Schema.ObjectId,
@@ -40,12 +55,6 @@ const PreviewDetailSchema = new mongoose.Schema({
   availablity: {
     //use this if its other prodycts other then dress
     type: Number,
-  },
-
-  previewId: {
-    type: mongoose.Schema.ObjectId,
-    ref: "Preview",
-    required: [true, "PreviewDetail must have a preview!"],
   },
 });
 
