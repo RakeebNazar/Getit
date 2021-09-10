@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const validator = require("validator");
 // const bcrypt = require('bcryptjs');
 
-var UserSchema = new mongoose.Schema({
+var userSchema = new mongoose.Schema({
   userName: {
     type: String,
   },
@@ -75,7 +75,15 @@ var UserSchema = new mongoose.Schema({
   },
 
   wishlist: [
-    //use shift() in pre hook. if array.lenth() is 30
+    //use shift() in pre hook. if array.lenth() is 30. throw an errorr to user. do not unshift(). idhul 15+recentla 15+baesd on the categories of that 20.
+    {
+      type: mongoose.Schema.ObjectId,
+      ref: "Product",
+    },
+  ],
+
+  recentlyViewd: [
+    //use shift() in pre hook. if array.lenth() is 30. based on wish list and recently viewed products sub categoriesm show other products in home
     {
       type: mongoose.Schema.ObjectId,
       ref: "Product",
@@ -117,7 +125,7 @@ var UserSchema = new mongoose.Schema({
   },
 });
 
-const User = mongoose.model("User", UserSchema);
+const user = mongoose.model("user", userSchema);
 // var test = mongoose.model("Test", Test);
 
 // (async function () {
@@ -129,4 +137,4 @@ const User = mongoose.model("User", UserSchema);
 //   console.log(await test.find({}));
 // })();
 
-module.exports = User;
+module.exports = user;

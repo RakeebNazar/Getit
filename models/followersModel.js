@@ -4,16 +4,18 @@ const mongoose = require("mongoose");
 const validator = require("validator");
 // const bcrypt = require('bcryptjs');
 
-var FollowingSchema = new mongoose.Schema({
+var followersSchema = new mongoose.Schema({
   _id: false,
-  followingId: {
-    //follower should be a user/artist
+  user: {
+    //followeing shoul be a normal user/artist
     type: mongoose.Schema.ObjectId,
     ref: "User",
     required: [true, "FollwingId can not be empty!"],
     //check weather the followThem id is artist or not. if not thn throw error,
   },
   followers: [
+    //indha followersId yara yara follow panraru. endha endha artist a
+    //followers should be a artist
     //to get the count of tghe followers, create a virtuals data on scehama. in that virtual data function, count all the followers  this.followers.length();
     {
       _id: false,
@@ -21,7 +23,7 @@ var FollowingSchema = new mongoose.Schema({
         type: mongoose.Schema.ObjectId,
         ref: "user",
 
-        //check weather the followThem id is artist or not. if not thn throw error,
+        //followerdby
       },
       status: {
         type: Number,
@@ -37,7 +39,7 @@ var FollowingSchema = new mongoose.Schema({
   ],
 });
 
-const Following = mongoose.model("Following", FollowingSchema);
+const followers = mongoose.model("followers", followersSchema);
 // var test = mongoose.model("Test", Test);
 
 // (async function () {
@@ -49,4 +51,4 @@ const Following = mongoose.model("Following", FollowingSchema);
 //   console.log(await test.find({}));
 // })();
 
-module.exports = Following;
+module.exports = followers;

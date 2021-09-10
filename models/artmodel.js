@@ -1,7 +1,7 @@
 // review / rating / createdAt / ref to tour / ref to user
 const mongoose = require("mongoose");
 
-const ArtSchema = new mongoose.Schema({
+const artSchema = new mongoose.Schema({
   isAllowed: {
     //matureContent
     type: Boolean,
@@ -9,39 +9,33 @@ const ArtSchema = new mongoose.Schema({
   },
   title: {
     type: String,
+    required: [true, "art must belong have a title"],
   },
   artist: {
     type: mongoose.Schema.ObjectId,
     ref: "User",
-    required: [true, "Art must belong to a Artist"],
+    required: [true, "art must belong to a artist"],
   },
   artistCommision: {
     type: Number,
-    required: [true, "Art must have a commision"],
+    required: [true, "art must have a commision"],
   },
   Description: {
     type: String,
-    required: [true, "Art must have a description"],
+    required: [true, "art must have a description"],
   },
   createdAt: {
     type: Date,
     default: Date.now,
   },
-  keywords: [
-    //add product name and user name as a keyword as well
-    {
-      type: String,
-      required: [true, "Art must have some keywords"],
-      minItems: 0,
-      maxItems: 20,
-      description: "keywords should not exceed 20",
-    },
-  ],
+
   artImage: {
     //image of the art
     type: String,
+    required: [true, "art must belong have a image"],
   },
   visibility: {
+    //private or public
     type: Boolean,
     deafult: false,
   },
@@ -49,8 +43,16 @@ const ArtSchema = new mongoose.Schema({
     type: String,
     default: "white",
   },
+  previewId: {
+    //must, when we want to render seller art edit previews, we might need thhis.
+    type: mongoose.Schema.ObjectId,
+    ref: "Preview",
+    required: [true, "Product must have a preview!"],
+  },
 });
 
-const Art = mongoose.model("Art", ArtSchema);
+artSchema.index({ pricisAllowede: -1, visibility: -1 });
 
-module.exports = Art;
+const art = mongoose.model("art", artSchema);
+
+module.exports = art;

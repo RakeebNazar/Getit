@@ -1,53 +1,49 @@
 const mongoose = require("mongoose");
 
-const OrderItemSchema = new mongoose.Schema({
+const orderDetailSchema = new mongoose.Schema({
   //NOTE: when showing products in the cart, then get the discount, and product price details from product table and update the discount and price in here.
-  //(check if the orderdetail products details and product tables product details are same,if not thn pdate that orderDetails product from
-  // the current product and thn based on that orderDetail create the items in the cart)
+  //(check if the orderdetail products details and product tables product details are same,if not thn update that orderDetails product from
+  // the current product and thn based on that orderDetail create the items in the cart). when cart is not paid yet
   //but when showing order history, thn get the discount/price from this collection
-  createdAt: {
-    type: Date,
-    default: Date.now(),
-  },
+
   cart: {
+    //when order history is requested, we have to show the orders baszed on cart. find all the carts that are inactive
     type: mongoose.Schema.ObjectId,
     ref: "Cart",
-    required: [true, "OrderItem must belong to a cart!"],
+    required: [true, "orderItem must belong to a cart!"],
   },
   product: {
     type: mongoose.Schema.ObjectId,
     ref: "Product",
-    required: [true, "OrderItem must belong to a Product!"],
+    required: [true, "orderItem must belong to a Product!"],
   },
   customer: {
     type: mongoose.Schema.ObjectId,
     ref: "User",
-    required: [true, "OrderItem must belong to a customer!"],
+    required: [true, "orderItem must belong to a customer!"],
   },
   artist: {
     type: mongoose.Schema.ObjectId,
     ref: "User",
-    required: [true, "OrderItem must belong to a artist!"],
+    required: [true, "orderItem must belong to a artist!"],
   },
-  discount: {
-    type: mongoose.Schema.ObjectId,
-    ref: "Discount",
-  },
+
   productName: {
     //the seller might change/delete the name  of a product in future thats why this data.
     type: String,
-    required: [true, "OrderItem must belong to a Product!"],
+    required: [true, "orderItem must belong to a Product!"],
   },
 
   productDetail: {
     type: Object,
     customerName: {
       type: String,
-      required: [true, "OrderItem must belong to a Customer!"],
+      required: [true, "orderItem must belong to a Customer!"],
     },
     artistName: {
+      //when a artist updates his name, we should update here
       type: String,
-      required: [true, "OrderItem must belong to a Artist!"],
+      required: [true, "orderItem must belong to a Artist!"],
     },
     price: {
       //we might change the price of a product in future thats why this data.
@@ -158,6 +154,8 @@ bookingSchema.pre(/^find/, function (next) {
   next();
 });
 
-const Orderitem = mongoose.model("OrderDetail", OrderDetailSchema);
+const orderDetail = mongoose.model("orderDetail", orderDetailSchema);
 
-module.exports = OrderDetail;
+module.exports = orderDetail;
+
+//create virtual for price-artistPrice and paid to artist or not. Inorder to check the transactions happened in teh company. [credit,debit]

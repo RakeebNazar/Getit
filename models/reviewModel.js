@@ -2,7 +2,7 @@
 const mongoose = require("mongoose");
 const Tour = require("./tourModel");
 
-const ReviewSchema = new mongoose.Schema({
+const reviewSchema = new mongoose.Schema({
   review: {
     type: String,
   },
@@ -19,12 +19,12 @@ const ReviewSchema = new mongoose.Schema({
   product: {
     type: mongoose.Schema.ObjectId,
     ref: "Product",
-    required: [true, "Review must belong to a Product."],
+    required: [true, "review must belong to a Product."],
   },
   user: {
     type: mongoose.Schema.ObjectId,
     ref: "User",
-    required: [true, "Review must belong to a user"],
+    required: [true, "review must belong to a user"],
   },
 });
 
@@ -92,6 +92,6 @@ reviewSchema.post(/^findOneAnd/, async function () {
   await this.r.constructor.calcAverageRatings(this.r.tour);
 });
 
-const Review = mongoose.model("Review", ReviewSchema);
+const review = mongoose.model("review", reviewSchema);
 
-module.exports = Review;
+module.exports = review;

@@ -4,8 +4,8 @@ const mongoose = require("mongoose");
 
 // const bcrypt = require('bcryptjs');
 
-var DiscountSchema = new mongoose.Schema({
-  key: {
+var discountSchema = new mongoose.Schema({
+  coupon: {
     type: String,
   },
   userId: {
@@ -17,7 +17,7 @@ var DiscountSchema = new mongoose.Schema({
       validator: function (bio) {
         return this.type === "newUser";
       },
-      message: "You are not eligible to claim this",
+      message: "neUser coupon should be tied with a User",
     },
     //check weather the followThem id is artist or not. if not thn throw error,
   },
@@ -28,7 +28,7 @@ var DiscountSchema = new mongoose.Schema({
   type: {
     type: String,
     enum: ["newUser", "special"],
-    default: "preview",
+    required: "A coupon should have a type",
   },
   discount: {
     //create unique discount prices for unique tshirts,cases. e.g mobile phone cases, long sleeve tshirts
@@ -44,7 +44,7 @@ var DiscountSchema = new mongoose.Schema({
   },
 });
 
-const Discount = mongoose.model("Discount", DiscountSchema);
+const discount = mongoose.model("discount", discountSchema);
 // var test = mongoose.model("Test", Test);
 
 // (async function () {
@@ -56,4 +56,4 @@ const Discount = mongoose.model("Discount", DiscountSchema);
 //   console.log(await test.find({}));
 // })();
 
-module.exports = Discount;
+module.exports = discount;

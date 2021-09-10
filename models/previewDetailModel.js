@@ -1,43 +1,43 @@
-// review / rating / createdAt / ref to tour / ref to user
+//we need this collection because we have multiple images same image for a product. so the image might have duplicate entries of the same image, in many products.
 const mongoose = require("mongoose");
 //u should cteaye tshirts based on nech type
-const PreviewDetailSchema = new mongoose.Schema({
+const previewDetailSchema = new mongoose.Schema({
   previewId: {
-    //when adding new product to database, we might have to search, based on mobilePreview id, render all the preview detail docs from this collection. e.g mobileId-6s,5s]
+    //when adding new product to database, we might have to search, based on mobilepreview id, render all the preview detail docs from this collection. e.g mobileId-6s,5s]
     type: mongoose.Schema.ObjectId,
-    ref: "Preview",
-    required: [true, "PreviewDetail must belong to a preview!"],
+    ref: "preview",
+    required: [true, "previewDetail must belong to a preview!"],
   },
   type: {
     //iphone/standardShortSleeve, PremiumLongSleeve
-    //the seller might change/delete the name  of a PreviewDetail in future thats why this data.
+    //the seller might change/delete the name  of a previewDetail in future thats why this data.
     type: String,
-    required: [true, "PreviewDetail must have a type"],
+    required: [true, "previewDetail must have a type"],
   },
   model: {
     //6s,crew neck-dress.
     type: String,
-    required: [true, "PreviewDetail must have a model"],
+    required: [true, "previewDetail must have a model"],
   },
   images: [
-    //we might change the price of a PreviewDetail in future thats why this data.
-    { type: String, require: [true, "PreviewDetail must have a image."] },
+    //we might change the price of a previewDetail in future thats why this data.
+    { type: String, require: [true, "previewDetail must have a image."] },
   ],
   price: {
     //when a product is created it will render the price from here
     type: Number,
-    required: [true, "PreviewDetail must have a price"],
+    required: [true, "previewDetail must have a price"],
   },
   discount: {
-    //product would take the discount here by populate. NOTE: we might want
+    //product would take the discount here by populate. this is product specific discount
     type: Number,
     default: 0,
   },
   subCategory: {
     //
     type: mongoose.Schema.ObjectId,
-    ref: "Preview",
-    required: [true, "PreviewDetail must belong to a preview!"],
+    ref: "preview",
+    required: [true, "previewDetail must belong to a preview!"],
   },
   //   discount: {  //check
   //     type: mongoose.Schema.ObjectId,
@@ -56,8 +56,21 @@ const PreviewDetailSchema = new mongoose.Schema({
     //use this if its other prodycts other then dress
     type: Number,
   },
+  features: {
+    //Durable flexible case that grips around the edges of your phone //Shock absorbent TPU case with anti-fingerprint finish
+    type: String,
+  },
+  maxquantity: {
+    //for tshirt.(130g) 6tshirt per kg. so 6shirtMaxqty. if max quantity is reached,thn additional shipping fee will be deducted per additonal kg
+    type: Number,
+    required: [true, "preview must have a image"],
+  },
+  sizeChart: {
+    //size chart should be created to dresses, and it will be a image
+    type: String,
+  },
 });
 
-const PreviewDetail = mongoose.model("PreviewDetail", PreviewDetailSchema);
+const previewDetail = mongoose.model("previewDetail", previewDetailSchema);
 
-module.exports = PreviewDetail;
+module.exports = previewDetail;

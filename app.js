@@ -76,11 +76,11 @@ app.use(express.urlencoded({ extended: true, limit: "10kb" }));
 // app.use(compression());
 
 // 3) ROUTES
-
-app.use("/", function (req, res) {
-  res.send("chuamaama");
-});
-// app.use("/api/v1/tours", tourRouter);
+app.use("/", viewRouter);
+app.use("/api/v1/tours", tourRouter);
+app.use("/api/v1/users", userRouter);
+app.use("/api/v1/reviews", reviewRouter);
+app.use("/api/v1/bookings", bookingRouter);
 
 //app all means every other requests get/post etc.. * means every other routes
 app.all("*", (req, res, next) => {
