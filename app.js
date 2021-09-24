@@ -12,7 +12,7 @@ const express = require("express");
 // const cors = require("cors");
 
 // const AppError = require("./utils/appError");
-// const globalErrorHandler = require("./controllers/errorController");
+const globalErrorHandler = require("./controllers/errorController");
 
 //routes
 // const tourRouter = require("./routes/tourRoutes");
@@ -88,6 +88,6 @@ app.all("*", (req, res, next) => {
   //   next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));
 });
 
-// app.use(globalErrorHandler);
+app.use(globalErrorHandler.errorMiddlewareCallback);
 
 module.exports = app;

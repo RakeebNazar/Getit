@@ -1,4 +1,4 @@
-// review / rating / createdAt / ref to tour / ref to user
+// preview is used when an artist want to apply his design to the previews.
 const mongoose = require("mongoose");
 
 const previewSchema = new mongoose.Schema({

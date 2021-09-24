@@ -4,19 +4,20 @@ const mongoose = require("mongoose");
 const validator = require("validator");
 // const bcrypt = require('bcryptjs');
 
-var followersSchema = new mongoose.Schema({
+var followerSchema = new mongoose.Schema({
   _id: false,
-  user: {
+  artist: {
     //followeing shoul be a normal user/artist
     type: mongoose.Schema.ObjectId,
     ref: "User",
-    required: [true, "FollwingId can not be empty!"],
+    required: [true, "artistId can not be empty!"],
     //check weather the followThem id is artist or not. if not thn throw error,
   },
   followers: [
-    //indha followersId yara yara follow panraru. endha endha artist a
-    //followers should be a artist
-    //to get the count of tghe followers, create a virtuals data on scehama. in that virtual data function, count all the followers  this.followers.length();
+    //indha particular person da followers.
+    //indha artist a yaru yaru follow panranga.
+    //user should be a artist
+    //to get the count of tghe followers, create a virtuals data on scehama. in that virtual data function, count all the followers  this.followersArray.Alength();
     {
       _id: false,
       followerId: {
@@ -34,12 +35,12 @@ var followersSchema = new mongoose.Schema({
       },
       minItems: 0,
       maxItems: 1000,
-      description: "A Artist cannot have more then 1000 followers",
+      description: "An Artist cannot have more then 1000 followers",
     },
   ],
 });
 
-const followers = mongoose.model("followers", followersSchema);
+const follower = mongoose.model("follower", followerSchema);
 // var test = mongoose.model("Test", Test);
 
 // (async function () {

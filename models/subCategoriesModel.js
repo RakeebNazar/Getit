@@ -1,5 +1,7 @@
 const mongoose = require("mongoose");
 
+//subCategories are, MobilePhone--> cases, accessroies, PhoneCases
+// dresses --> tshirt,frock etc
 const subCategorySchema = new mongoose.Schema({
   name: {
     type: String,

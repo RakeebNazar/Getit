@@ -14,21 +14,24 @@ const productSchema = new mongoose.Schema({
     default: Date.now(),
   },
   price: {
+    //previewDetailsPrice+atistCommisionTakenByArt
     type: String,
     required: [true, "Product must have a price"],
   },
   previewDetailId: {
     //must, when rendering products on the front end for 6s cover, thn from the product table, we need the images of 6s, which is  available on previewDetail
     type: mongoose.Schema.ObjectId,
-    ref: "PreviewDetail",
-    required: [true, "Product must have a previewDetail!"],
+    ref: "previewDetail",
+    // required: [true, "Product must have a previewDetail!"], only add this if its not own
   },
   art: {
     //populate inside aggregate //need art image,art commision, and filter the mature content based on art's is allowerd.(ndexed) and private or public.
     //and create new filed on aggregate pipleine. always do this on aggregate find()
+    // use if statement inside aggregate or javascript (before getting the art or after getting the empty art) to filter the own products. and to
+    //to dont add art image for own products. do this for art and alignments.
     type: mongoose.Schema.ObjectId,
-    ref: "Art",
-    required: [true, "Product must have a art!"],
+    ref: "art",
+    required: [true, "Product must have a art!"], //no art for own products add condition
   },
   artist: {
     //when artist changes his name we have to update it here.. i could have taken the artist from art.
@@ -36,7 +39,7 @@ const productSchema = new mongoose.Schema({
     //artist
     //1:1
     type: String,
-    required: [true, "Product must have a artist"],
+    required: [true, "Product must have a artist"], //for artis - sold by getIt.lk
   },
   subCategory: {
     //1:many, gonna index
@@ -72,7 +75,44 @@ const productSchema = new mongoose.Schema({
     AlBottom: {
       type: String,
     },
-    required: [true, "Product must have alignments!"],
+    //    required: [true, "Product must have alignments!"], only add this as conditonb to non own product
+  },
+
+  //data for own product. should not be filled for no own products
+
+  isOwn: {
+    type: Boolean,
+    deafult: false,
+  },
+
+  images: [
+    { type: String, require: [true, "product must have a image."] }, //conditionally onluy for own product,
+  ],
+  dressAvailabilty: {
+    //fill this only if the previewDetail is a dress
+    type: Object,
+    extraSmall: Number,
+    small: Number,
+    medium: Number,
+    large: Number,
+    extraLarge: Number,
+  },
+  availablity: {
+    //use this if its other prodycts other then dress
+    type: Number,
+  },
+  Description: {
+    //Durable flexible case that grips around the edges of your phone //Shock absorbent TPU case with anti-fingerprint finish
+    type: String,
+  },
+  maxShipping: {
+    //for tshirt.(130g) 6tshirt per kg. so 6shirtMaxqty. if max quantity is reached,thn additional shipping fee will be deducted per additonal kg
+    type: Number,
+    required: [true, "previewDetail must have a maxShipping"], //conditionally onluy for own product,`
+  },
+  sizeChart: {
+    //size chart should be created to dresses, and it will be a image
+    type: String,
   },
 });
 

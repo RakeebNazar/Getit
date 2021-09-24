@@ -4,23 +4,15 @@ const mongoose = require("mongoose");
 
 // const bcrypt = require('bcryptjs');
 
+//this discount is only for new user and special discount, so always create this disocunt coupon with Nu at front.
+//so we can distinguish the discount with product speccifc discount and special/newUser discount.
+//no product specifc disocunt given, pretty hard --> we have to cereate product specifc discount for shortSleeve/LongSleeve/iphone Case/SamsungCase/ (previewDetail)
+//and Own Product Disocunt - laptops created by me. // add this  as feature in future.
 var discountSchema = new mongoose.Schema({
   coupon: {
     type: String,
   },
-  userId: {
-    //follower should be a user/artist
-    type: mongoose.Schema.ObjectId,
-    ref: "User",
-    validate: {
-      // This only works on CREATE and SAVE!!!
-      validator: function (bio) {
-        return this.type === "newUser";
-      },
-      message: "neUser coupon should be tied with a User",
-    },
-    //check weather the followThem id is artist or not. if not thn throw error,
-  },
+
   isActive: {
     type: boolean,
     default: false,
@@ -31,8 +23,9 @@ var discountSchema = new mongoose.Schema({
     required: "A coupon should have a type",
   },
   discount: {
-    //create unique discount prices for unique tshirts,cases. e.g mobile phone cases, long sleeve tshirts
-    type: Number,
+    //percentage
+    type: String,
+    required: "A coupon should have a discount",
   },
 
   createdAt: {

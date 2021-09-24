@@ -5,18 +5,39 @@ const mongoose = require("mongoose");
 // const bcrypt = require('bcryptjs');
 
 var cartSchema = new mongoose.Schema({
-  customer: {
-    //follower should be a user/artist
+  user: {
     type: mongoose.Schema.ObjectId,
-    ref: "User",
+    ref: "user",
     required: [true, "Cart Must Belong to a user"],
-    //check weather the followThem id is artist or not. if not thn throw error,
   },
+  product: [
+    {
+      product: {
+        type: mongoose.Schema.ObjectId,
+        ref: "product",
+      },
+      qty: {
+        type: String,
+      },
+    }, //set the max prodcut item in ore create hook, see code below
+  ],
+  shippingFee: [
+    {
+      product: {
+        type: mongoose.Schema.ObjectId,
+        ref: "shippingFee",
+      },
+      qty: {
+        type: String,
+      },
+    },
+  ],
   orderDate: {
     type: Date,
     default: Date.now,
   },
   orderStatus: {
+    //we change it when a cart is oaid successfully.
     type: Number,
     enums: [
       0, //pending
@@ -29,7 +50,7 @@ var cartSchema = new mongoose.Schema({
     type: String,
   },
   shippingAddress: {
-    //added when payment is made
+    //added on proceed to checkout. inorder to calculaye the toal amount
     type: String,
   },
   shippingPrice: {
@@ -52,8 +73,8 @@ var cartSchema = new mongoose.Schema({
 
   IsActive: {
     //when a order is paid successfully, thn mark this as inactive.
-    //thn when we need to show the current cart, thn we could, search this cartUd from orderDetail and display the current products on the cart
-    //whenever user has a active cart, thn show them onluy that cart. do not allow them to create new
+    //thn when we need to show the current cart, thn we could, search the active cartId from orderDetail and display the current products on the cart
+    //whenever user has a active cart, thn show them only that cart. do not allow them to create new
     type: Boolean,
     default: true,
   },
@@ -74,16 +95,11 @@ var cartSchema = new mongoose.Schema({
     type: Number,
   },
   discount: {
-    //only added after the payment is done. to see in order details
-    type: Number,
-    default: 0,
-  },
-  discount: {
     //when a discount is applied on front, create the discount coupon id here. based on the whenever a cart is request by user,
-    //apply this discount and show the subtotal until, it is removed by the user on front. if removed on fron thn remove from the cart b=collection as well.
+    //apply this discount and show the subtotal until, it is removed by the user on front. if removed on fron thn remove from the cart collection as well.
 
     type: mongoose.Schema.ObjectId,
-    ref: "Discount",
+    ref: "discount",
   },
   isDiscountApplied: {
     type: Boolean, //if special/newUser discout is applied once, dont allow customer to apply any other coupon again
@@ -92,6 +108,11 @@ var cartSchema = new mongoose.Schema({
 });
 
 const cart = mongoose.model("Cart", cartSchema);
+
+// schema.pre('create', function(next) {      //pre hook to limit products on a cart
+//   if (this.todoList.length > 10) throw("todoList exceeds maximum array size (10)!");
+//   next();
+// });
 // var test = mongoose.model("Test", Test);
 
 // (async function () {

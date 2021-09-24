@@ -2,10 +2,9 @@
 const mongoose = require("mongoose");
 
 const shippingFeeSchema = new mongoose.Schema({
-  name: {
-    //(short or long. should have a common shippingFee) Tshirt-Front, TShirt back(NOTE: back or front. cant be both), long sleeve front, Mobile Phone etc.
+  destination: {
     type: String,
-    required: [true, "shippingFee must have a name"],
+    required: [true, "shippingFee must have a destination"],
 
     enums: [
       "colombo", //crewnech,longsleeve,shortsleeve

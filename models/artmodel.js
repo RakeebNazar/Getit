@@ -16,7 +16,7 @@ const artSchema = new mongoose.Schema({
     ref: "User",
     required: [true, "art must belong to a artist"],
   },
-  artistCommision: {
+  artCommision: {
     type: Number,
     required: [true, "art must have a commision"],
   },
@@ -43,15 +43,20 @@ const artSchema = new mongoose.Schema({
     type: String,
     default: "white",
   },
-  previewId: {
-    //must, when we want to render seller art edit previews, we might need thhis.
-    type: mongoose.Schema.ObjectId,
-    ref: "Preview",
-    required: [true, "Product must have a preview!"],
-  },
+
+  previewId: [
+    //must, when we want to render seller art edit previews, we might need thhis. when creating editable previews of existing art,
+    //get the posiitons of art on the preiviw on product by - {art - subCategory) for 10 subcategory get 10 products doc, and take the positon from there.
+    //NOTE: subCategory and previews names are same.Also, show them the unselected previews as greyed out.
+    {
+      type: mongoose.Schema.ObjectId,
+      ref: "preview",
+      required: [true, "Art must have a preview!"],
+    },
+  ],
 });
 
-artSchema.index({ pricisAllowede: -1, visibility: -1 });
+artSchema.index({ isAllowed: -1, visibility: -1 });
 
 const art = mongoose.model("art", artSchema);
 

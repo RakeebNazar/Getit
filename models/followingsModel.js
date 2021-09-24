@@ -3,19 +3,19 @@
 const mongoose = require("mongoose");
 // const bcrypt = require('bcryptjs');
 
-var followings = new mongoose.Schema({
+var following = new mongoose.Schema({
   _id: false,
-  artist: {
+  user: {
     //ifollowingss should be artist
 
     type: mongoose.Schema.ObjectId,
     ref: "User",
-    required: [true, "followingsId can not be empty!"],
+    required: [true, "userId can not be empty!"],
   },
-  followings: [
+  following: [
     //artista yaru yaru follow panrarnga
 
-    //to get the count of tghe followingss, create a virtuals data on scehama. in that virtual data function, count all the followingss  this.followingss.length();
+    //to get the count of tghe followingss, create a virtuals data on scehama. in that virtual data function, count all the followingss  this.followingssArray.length();
     {
       _id: false,
       followingId: {
@@ -29,14 +29,16 @@ var followings = new mongoose.Schema({
           1, //accepted/followings/remove,
         ],
       },
-      minItems: 0,
-      maxItems: 1000,
-      description: "A followings cannot follow more than 1000 artist",
+      //set the min/max in pre create hook, se code below
     },
   ],
 });
 
-const followings = mongoose.model("followings", followingsSchema);
+// schema.pre('create', function(next) {
+//   if (this.todoList.length > 10) throw("todoList exceeds maximum array size (10)!");
+//   next();
+// });
+const following = mongoose.model("following", followingSchema);
 // var test = mongoose.model("Test", Test);
 
 // (async function () {

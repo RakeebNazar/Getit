@@ -1,41 +1,35 @@
 const mongoose = require("mongoose");
 
-const orderDetailSchema = new mongoose.Schema({
-  //NOTE: when showing products in the cart, then get the discount, and product price details from product table and update the discount and price in here.
-  //(check if the orderdetail products details and product tables product details are same,if not thn update that orderDetails product from
-  // the current product and thn based on that orderDetail create the items in the cart). when cart is not paid yet
-  //but when showing order history, thn get the discount/price from this collection
-
+const orderedItem = new mongoose.Schema({
   cart: {
-    //when order history is requested, we have to show the orders baszed on cart. find all the carts that are inactive
+    //to get the shipping details and stuffs
     type: mongoose.Schema.ObjectId,
     ref: "Cart",
     required: [true, "orderItem must belong to a cart!"],
   },
-  product: {
-    type: mongoose.Schema.ObjectId,
-    ref: "Product",
-    required: [true, "orderItem must belong to a Product!"],
-  },
-  customer: {
-    type: mongoose.Schema.ObjectId,
-    ref: "User",
-    required: [true, "orderItem must belong to a customer!"],
-  },
-  artist: {
-    type: mongoose.Schema.ObjectId,
-    ref: "User",
+  artistId: {
+    type: String,
     required: [true, "orderItem must belong to a artist!"],
   },
 
-  productName: {
+  productId: {
     //the seller might change/delete the name  of a product in future thats why this data.
     type: String,
     required: [true, "orderItem must belong to a Product!"],
   },
+  customerId: {
+    type: String,
+    required: [true, "orderItem must belong to a Customer!"],
+  },
 
   productDetail: {
+    //to get the history pf the ordered item
     type: Object,
+    productName: {
+      //the seller might change/delete the name  of a product in future thats why this data.
+      type: String,
+      required: [true, "orderItem must belong to a Product!"],
+    },
     customerName: {
       type: String,
       required: [true, "orderItem must belong to a Customer!"],
@@ -55,12 +49,7 @@ const orderDetailSchema = new mongoose.Schema({
       type: Number,
       require: [true, "Product must have a price."],
     },
-
-    discount: {
-      type: Number,
-      default: 0,
-    },
-
+    //no need for discount history in orderHistory
     backgroundColor: {
       type: String,
       require: [true, "Product must have a color"],
@@ -72,6 +61,7 @@ const orderDetailSchema = new mongoose.Schema({
   },
 
   alignment: {
+    //only fill if the cart is inactive, when paid
     //alignment of the art(image) inside previewDetailImage
     type: Object,
     //alignments
@@ -102,11 +92,6 @@ const orderDetailSchema = new mongoose.Schema({
     },
   },
 
-  removed: {
-    //checking weather its removed from cart or not
-    type: Boolean,
-    default: false,
-  },
   isRefundAsked: {
     //if refund is asked thn based on that delete the quantity and price from the order details when querying
     type: Boolean,
@@ -154,8 +139,8 @@ bookingSchema.pre(/^find/, function (next) {
   next();
 });
 
-const orderDetail = mongoose.model("orderDetail", orderDetailSchema);
+const orderedItem = mongoose.model("orderedItem", orderedItemSchema);
 
-module.exports = orderDetail;
+module.exports = orderedItem;
 
 //create virtual for price-artistPrice and paid to artist or not. Inorder to check the transactions happened in teh company. [credit,debit]
