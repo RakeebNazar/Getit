@@ -58,9 +58,44 @@ var userSchema = new mongoose.Schema({
     default: false,
     select: false,
   },
-  shippingAddress: {
-    type: String,
-  },
+  shippingAddress: [
+    {
+      District: {
+        type: String,
+        enums: [
+          "Colombo",
+          "Kandy",
+          "Galle",
+          "Ampara",
+          "Anuradhapura",
+          "Badulla",
+          "Batticaloa",
+          "Gampaha",
+          "Hambantota",
+          "Jaffna",
+          "Kalutara",
+          "Kegalle",
+          "Kilinochi",
+          "Kurunagela",
+          "Mannar",
+          "Matale",
+          "Matara",
+          "Monaragala",
+          "Mullativu",
+          "Nuawara Eliya",
+          "Polannaruwa",
+          "Puttalam",
+          "Ratnapura",
+          "Trincomalee",
+          "Vavuniya",
+        ],
+        required: [true, "The Shipping District can not be empty!"],
+      },
+      qty: {
+        type: String,
+      },
+    },
+  ],
   showMobile: {
     //show mobile detatails or not
     type: Boolean,

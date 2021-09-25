@@ -6,6 +6,7 @@ const mongoose = require("mongoose");
 
 var cartSchema = new mongoose.Schema({
   user: {
+    //get the shiiping address drop down from here as well.
     type: mongoose.Schema.ObjectId,
     ref: "user",
     required: [true, "Cart Must Belong to a user"],
@@ -21,48 +22,15 @@ var cartSchema = new mongoose.Schema({
       },
     }, //set the max prodcut item in ore create hook, see code below
   ],
-  shippingFee: [
-    {
-      product: {
-        type: mongoose.Schema.ObjectId,
-        ref: "shippingFee",
-      },
-      qty: {
-        type: String,
-      },
-    },
-  ],
+  totalShippingFee: {
+    //note: shipping fee will be calculated on the front end., this data should be filled only when the item is paid. this is the total shipping
+    //for the cart, but when we have a unpaid cart, thn we wont add the shipping fee herte, it will be calcuted on the front end. lively.
+
+    type: String,
+  },
   orderDate: {
     type: Date,
     default: Date.now,
-  },
-  orderStatus: {
-    //we change it when a cart is oaid successfully.
-    type: Number,
-    enums: [
-      0, //pending
-      1, //sent,
-      2, //RecievedByCustomer
-    ],
-    required: [true, "Cart Must have a order status"],
-  },
-  wayBillNo: {
-    type: String,
-  },
-  shippingAddress: {
-    //added on proceed to checkout. inorder to calculaye the toal amount
-    type: String,
-  },
-  shippingPrice: {
-    //added when payment is made
-    //if shipping address / quantity is out of colombo or larger than 20, thn calculate the shipping price based on that,
-    //on the front end and verify the shipping price on the backned based on the quantity and address before accepting the payment
-    type: Number,
-    default: 150,
-  },
-  mobileNumber: {
-    //added when payment is made.mandotory on front end, before checkout
-    type: String,
   },
 
   paymentMethod: {
@@ -110,9 +78,11 @@ var cartSchema = new mongoose.Schema({
 const cart = mongoose.model("Cart", cartSchema);
 
 // schema.pre('create', function(next) {      //pre hook to limit products on a cart
-//   if (this.todoList.length > 10) throw("todoList exceeds maximum array size (10)!");
+//   if (this.productArrau.length > 10) throw("todoList exceeds maximum array size (10)!");
 //   next();
 // });
+
+//add a feature remove the product from cart and add it on wish list. - save for letter amazon feature
 // var test = mongoose.model("Test", Test);
 
 // (async function () {

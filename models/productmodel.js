@@ -2,6 +2,7 @@
 const mongoose = require("mongoose");
 
 const productSchema = new mongoose.Schema({
+  //when we caret own product we dont have any link with preview detail, we just create and access from product colllection.
   //note: if you want to add products, (own), withut any designs at all, thn turn off the art, alignments required and add the products on a specific route by admins.
   //and thn change the isOwner to true, so when rendering products on the front end, i can  do if(product.isOwner) dont try to apply art/alignemtn
   productName: {
