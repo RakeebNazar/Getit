@@ -79,16 +79,6 @@ const productSchema = new mongoose.Schema({
     //    required: [true, "Product must have alignments!"], only add this as conditonb to non own product
   },
 
-  //data for own product. should not be filled for no own products
-
-  isOwn: {
-    type: Boolean,
-    deafult: false,
-  },
-
-  images: [
-    { type: String, require: [true, "product must have a image."] }, //conditionally onluy for own product,
-  ],
   dressAvailabilty: {
     //fill this only if the previewDetail is a dress
     type: Object,
@@ -115,6 +105,23 @@ const productSchema = new mongoose.Schema({
     //size chart should be created to dresses, and it will be a image
     type: String,
   },
+
+  default: {
+    //this default product will be rendered when a Subcategoriy is clicked. e.g when case/cover is clicked we will get only the default cover for a specific  art.
+    //iphone cover. not all available covers of that prodcuts. e.g 5s,6s etc
+    type: Boolean,
+    default: false,
+  },
+
+  //data for own product. should not be filled for no own products
+  isOwn: {
+    type: Boolean,
+    deafult: false,
+  },
+
+  images: [
+    { type: String, require: [true, "product must have a image."] }, //conditionally onluy for own product,
+  ],
 });
 
 productSchema.index({ price: 1, productName: 1, subCategory: 1 });

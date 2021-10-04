@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 
 const shippingFeeSchema = new mongoose.Schema({
   destination: {
+    //this will help the browser to calculate the shipping fee, basedon teh slected user address
     type: String,
     required: [true, "shippingFee must have a destination"],
     enums: [

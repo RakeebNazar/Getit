@@ -58,7 +58,7 @@ var userSchema = new mongoose.Schema({
     default: false,
     select: false,
   },
-  shippingAddress: [
+  shippingAddress: [  //user can have multple shipping adreess
     {
       District: {
         type: String,
